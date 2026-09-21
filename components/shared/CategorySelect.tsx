@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Category, PHASE_COLORS, PhaseColor } from "../../types";
+import { Category, PHASE_COLORS } from "../../types";
 
 interface CategorySelectProps {
   id?: string;
