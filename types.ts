@@ -19,10 +19,22 @@ export interface Phase {
   color: PhaseColor;
 }
 
+export interface Category {
+  id: string;
+  name: string; // e.g. "Event", "Web", "Product", "Client project", "Learning"
+  color: PhaseColor;
+}
+
+export interface DateSpan {
+  startDate: string; // "YYYY-MM-DD"
+  endDate: string; // "YYYY-MM-DD" (inclusive)
+}
+
 export interface Project {
   id: string;
   name: string;
   startDate: string; // "YYYY-MM-DD"
+  typeId?: string; // optional reference to Category.id
   phases: Phase[];
 }
 
@@ -38,9 +50,39 @@ export interface ScheduledProject {
   name: string;
   startDate: string;
   endDate: string;
+  typeId?: string;
   totalDays: number;
   phases: ScheduledPhase[];
 }
+
+export interface Assignment {
+  id: string;
+  title: string;
+  kindId: string; // reference to Category.id
+  startDate: string; // "YYYY-MM-DD"
+  endDate: string; // "YYYY-MM-DD" (inclusive)
+}
+
+export interface Intern {
+  id: string;
+  name: string;
+  assignments: Assignment[];
+}
+
+export interface ScheduledAssignment extends Assignment {
+  durationDays: number;
+  dayOffset: number; // measured from timeline range start
+  laneIndex: number; // 0-based lane index
+}
+
+export interface ScheduledIntern {
+  id: string;
+  name: string;
+  assignments: ScheduledAssignment[];
+  totalLanes: number;
+  activeTodayCount: number;
+}
+
 
 export interface TimelineDay {
   date: string; // "YYYY-MM-DD"

@@ -13,7 +13,12 @@ import {
   isValidDateString,
   parseDateUTC,
 } from "./dates";
-import { computeTimelineRange, scheduleProject } from "./schedule";
+import {
+  computeTimelineRange,
+  computeTimelineRangeFromSpans,
+  scheduleIntern,
+  scheduleProject,
+} from "./schedule";
 import { getSeedProjects, validateProjects } from "./store";
 import { Project } from "../types";
 
@@ -221,3 +226,62 @@ test("store: seed projects are dynamic and valid", () => {
     false
   );
 });
+
+test("schedule: computeTimelineRangeFromSpans correctly bounds generic date spans", () => {
+  const spans = [
+    { startDate: "2026-09-10", endDate: "2026-09-18" },
+    { startDate: "2026-09-25", endDate: "2026-10-02" },
+  ];
+  const today = "2026-09-15";
+
+  const range = computeTimelineRangeFromSpans(spans, today);
+
+  // Range starts on Monday
+  assert.equal(parseDateUTC(range.startDate).getUTCDay(), 1);
+  // Range ends on Sunday
+  assert.equal(parseDateUTC(range.endDate).getUTCDay(), 0);
+  // Earliest date is 2026-09-10 (Thursday). Monday of that week is 2026-09-07. One week before is 2026-08-31.
+  assert.equal(range.startDate, "2026-08-31");
+  // Range has at least 56 days
+  assert.ok(range.totalDays >= 56);
+  assert.ok(range.todayIndex >= 0);
+});
+
+test("schedule: scheduleIntern places assignments in lanes and computes active today count", () => {
+  const today = "2026-09-15";
+  const intern = {
+    id: "intern-1",
+    name: "Alex",
+    assignments: [
+      {
+        id: "a1",
+        title: "Client task",
+        kindId: "kind-client",
+        startDate: "2026-09-10",
+        endDate: "2026-09-18", // covers today (2026-09-15)
+      },
+      {
+        id: "a2",
+        title: "Study task",
+        kindId: "kind-learn",
+        startDate: "2026-09-14", // overlaps with a1 -> lane 1
+        endDate: "2026-09-20", // covers today (2026-09-15)
+      },
+      {
+        id: "a3",
+        title: "Future task",
+        kindId: "kind-learn",
+        startDate: "2026-09-25",
+        endDate: "2026-09-30", // does not cover today
+      },
+    ],
+  };
+
+  const scheduled = scheduleIntern(intern, "2026-08-31", today);
+  assert.equal(scheduled.id, "intern-1");
+  assert.equal(scheduled.totalLanes, 2);
+  assert.equal(scheduled.activeTodayCount, 2);
+  assert.equal(scheduled.assignments.length, 3);
+  assert.equal(scheduled.assignments[0].durationDays, 9); // 10th to 18th inclusive = 9 days
+});
+
