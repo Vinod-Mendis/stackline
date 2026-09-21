@@ -1,11 +1,15 @@
 "use client";
 
-import { useProjectStore } from "../lib/store";
+import { useProjectStore, useProjectTypesStore } from "../lib/store";
 import { Timeline } from "../components/timeline/Timeline";
 
 export default function Home() {
-  const { projects, isLoaded, addProject, updateProject, deleteProject } =
+  const { projects, isLoaded: isProjectsLoaded, addProject, updateProject, deleteProject } =
     useProjectStore();
+  const { projectTypes, isLoaded: isTypesLoaded, addProjectType } =
+    useProjectTypesStore();
+
+  const isLoaded = isProjectsLoaded && isTypesLoaded;
 
   if (!isLoaded) {
     return (
@@ -22,6 +26,8 @@ export default function Home() {
       <div className="w-full flex-1 flex flex-col min-h-0">
         <Timeline
           projects={projects}
+          projectTypes={projectTypes}
+          onAddProjectType={addProjectType}
           onAddProject={addProject}
           onUpdateProject={updateProject}
           onDeleteProject={deleteProject}

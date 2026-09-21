@@ -1,12 +1,14 @@
 "use client";
 
 import React from "react";
-import { ScheduledProject, TimelineDay } from "../../types";
+import { Category, ScheduledProject, TimelineDay } from "../../types";
 import { formatDateRange, formatDuration } from "../../lib/dates";
 import { PhaseBar } from "./PhaseBar";
+import { TimelineGridBackground } from "../shared/TimelineGridBackground";
 
 interface ProjectRowProps {
   project: ScheduledProject;
+  category?: Category;
   days: TimelineDay[];
   todayIndex?: number;
   onEdit: () => void;
@@ -14,6 +16,7 @@ interface ProjectRowProps {
 
 export function ProjectRow({
   project,
+  category,
   days,
   todayIndex,
   onEdit,
@@ -31,7 +34,19 @@ export function ProjectRow({
   return (
     <div className="flex flex-row h-[66px] border-b border-[var(--line)] hover:bg-[var(--surface-2)]/30 group">
       {/* Sticky Left Column */}
-      <div className="sticky left-0 z-10 w-[132px] sm:w-[210px] min-w-[132px] sm:min-w-[210px] shrink-0 bg-[var(--surface)] border-r border-[var(--line)] px-3 py-2 flex flex-col justify-center select-none group-hover:bg-[var(--surface)]">
+      <div className="sticky left-0 z-10 w-[132px] sm:w-[210px] min-w-[132px] sm:min-w-[210px] shrink-0 bg-[var(--surface)] border-r border-[var(--line)] px-3 py-1.5 flex flex-col justify-center select-none group-hover:bg-[var(--surface)]">
+        {/* Project type name and 8px colored square (sentence case) */}
+        {category && (
+          <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] text-[var(--muted)] font-medium leading-none mb-1 truncate">
+            <span
+              className="w-2 h-2 rounded-[1px] shrink-0"
+              style={{ backgroundColor: category.color }}
+              aria-hidden="true"
+            />
+            <span className="truncate">{category.name}</span>
+          </div>
+        )}
+
         <button
           type="button"
           onClick={onEdit}
@@ -41,7 +56,7 @@ export function ProjectRow({
           {project.name || "Untitled project"}
         </button>
 
-        <div className="text-[10px] sm:text-[11px] leading-tight text-[var(--muted)] tabular-nums truncate mt-1">
+        <div className="text-[10px] sm:text-[11px] leading-tight text-[var(--muted)] tabular-nums truncate mt-0.5">
           <span>{dateRangeLabel}</span>
           <span className="mx-1">•</span>
           <span>{totalDaysLabel}</span>
@@ -50,33 +65,7 @@ export function ProjectRow({
 
       {/* Timeline track with day grid background & phase bars */}
       <div className="relative flex flex-row flex-nowrap shrink-0 h-[66px]">
-        {/* Background day columns */}
-        {days.map((day) => {
-          const isWeekend = day.isWeekend;
-          const isMonday = day.isMonday;
-
-          return (
-            <div
-              key={day.date}
-              style={{ width: "36px" }}
-              className={`shrink-0 h-full ${
-                isWeekend ? "bg-[var(--surface-2)]/60" : "bg-transparent"
-              } ${
-                isMonday
-                  ? "border-r border-[var(--ink)]/15"
-                  : "border-r border-[var(--line)]/40"
-              }`}
-            />
-          );
-        })}
-
-        {/* Today vertical line */}
-        {typeof todayIndex === "number" && todayIndex >= 0 && (
-          <div
-            className="absolute top-0 bottom-0 w-[1px] bg-[var(--today)]/75 pointer-events-none z-10"
-            style={{ left: `${todayIndex * 36 + 18}px` }}
-          />
-        )}
+        <TimelineGridBackground days={days} todayIndex={todayIndex} />
 
         {/* Phase Bars */}
         {project.phases.map((phase) => (
@@ -86,3 +75,4 @@ export function ProjectRow({
     </div>
   );
 }
+

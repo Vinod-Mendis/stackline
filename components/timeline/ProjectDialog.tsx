@@ -1,13 +1,17 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { Phase, PHASE_COLORS, Project } from "../../types";
+import React, { useState } from "react";
+import { Category, Phase, PHASE_COLORS, Project } from "../../types";
 import { getTodayDateString } from "../../lib/dates";
 import { PhaseFields } from "./PhaseFields";
+import { CategorySelect } from "../shared/CategorySelect";
+import { ModalDialog } from "../shared/ModalDialog";
 
 interface ProjectDialogProps {
   isOpen: boolean;
   project: Project | null;
+  categories: Category[];
+  onAddCategory: (category: Category) => void;
   onSave: (project: Project) => void;
   onDelete?: (projectId: string) => void;
   onClose: () => void;
@@ -25,15 +29,27 @@ function createEmptyPhase(colorIndex = 0): Phase {
 
 interface ProjectFormProps {
   project: Project | null;
+  categories: Category[];
+  onAddCategory: (category: Category) => void;
   onSave: (project: Project) => void;
   onDelete?: (projectId: string) => void;
   onClose: () => void;
 }
 
-function ProjectForm({ project, onSave, onDelete, onClose }: ProjectFormProps) {
+function ProjectForm({
+  project,
+  categories,
+  onAddCategory,
+  onSave,
+  onDelete,
+  onClose,
+}: ProjectFormProps) {
   const [name, setName] = useState(project ? project.name : "");
   const [startDate, setStartDate] = useState(
     project ? project.startDate : getTodayDateString()
+  );
+  const [typeId, setTypeId] = useState<string | undefined>(
+    project ? project.typeId : undefined
   );
   const [phases, setPhases] = useState<Phase[]>(() =>
     project && project.phases.length > 0
@@ -77,6 +93,7 @@ function ProjectForm({ project, onSave, onDelete, onClose }: ProjectFormProps) {
       id: project ? project.id : `proj-${Date.now()}`,
       name: finalProjectName,
       startDate: finalStartDate,
+      typeId: typeId || undefined,
       phases: sanitizedPhases,
     };
 
@@ -110,7 +127,7 @@ function ProjectForm({ project, onSave, onDelete, onClose }: ProjectFormProps) {
           type="button"
           onClick={onClose}
           aria-label="Close dialog"
-          className="w-7 h-7 rounded-[5px] flex items-center justify-center text-[var(--muted)] hover:text-[var(--ink)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)]"
+          className="w-7 h-7 rounded-[5px] flex items-center justify-center text-[var(--muted)] hover:text-[var(--ink)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] cursor-pointer"
         >
           ✕
         </button>
@@ -135,6 +152,19 @@ function ProjectForm({ project, onSave, onDelete, onClose }: ProjectFormProps) {
             className="h-9 px-3 text-[13px] bg-[var(--surface-2)] border border-[var(--line)] rounded-[6px] text-[var(--ink)] placeholder:text-[var(--muted)]/70 focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)]"
           />
         </div>
+
+        {/* Project Type Select */}
+        <CategorySelect
+          id="project-type"
+          label="Type"
+          categories={categories}
+          selectedId={typeId}
+          onChange={setTypeId}
+          onAddCategory={onAddCategory}
+          placeholder="No type"
+          newOptionLabel="New type..."
+          allowNone={true}
+        />
 
         {/* Start Date */}
         <div className="flex flex-col gap-1.5">
@@ -229,50 +259,24 @@ function ProjectForm({ project, onSave, onDelete, onClose }: ProjectFormProps) {
 export function ProjectDialog({
   isOpen,
   project,
+  categories,
+  onAddCategory,
   onSave,
   onDelete,
   onClose,
 }: ProjectDialogProps) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-
-    if (isOpen) {
-      if (!dialog.open) {
-        dialog.showModal();
-      }
-    } else {
-      if (dialog.open) {
-        dialog.close();
-      }
-    }
-  }, [isOpen]);
-
-  const handleCancel = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    onClose();
-  };
-
-  if (!isOpen) {
-    return null;
-  }
-
   return (
-    <dialog
-      ref={dialogRef}
-      onCancel={handleCancel}
-      className="stackline-dialog fixed inset-0 m-auto z-50 w-full max-w-lg rounded-[8px] p-0 text-[var(--ink)] backdrop:backdrop-blur-[1px]"
-      aria-labelledby="dialog-title"
-    >
+    <ModalDialog isOpen={isOpen} onClose={onClose} titleId="dialog-title">
       <ProjectForm
         key={`${project?.id ?? "new"}-${isOpen}`}
         project={project}
+        categories={categories}
+        onAddCategory={onAddCategory}
         onSave={onSave}
         onDelete={onDelete}
         onClose={onClose}
       />
-    </dialog>
+    </ModalDialog>
   );
 }
+
