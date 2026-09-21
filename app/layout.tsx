@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
+import { AppNav } from "../components/nav/AppNav";
 import "./globals.css";
 
 const bricolageGrotesque = Bricolage_Grotesque({
@@ -29,7 +30,12 @@ export default function RootLayout({
       lang="en"
       className={`${bricolageGrotesque.variable} ${instrumentSans.variable} h-full antialiased`}
     >
-      <body className="h-full flex flex-col overflow-hidden">{children}</body>
+      <body className="h-full flex flex-col overflow-hidden">
+        <AppNav />
+        <div className="flex-1 min-h-0 overflow-hidden flex flex-col">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }
