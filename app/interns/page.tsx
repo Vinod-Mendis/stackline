@@ -34,7 +34,7 @@ export default function InternsPage() {
   }
 
   return (
-    <main className="h-full w-full bg-[var(--bg)] p-3 sm:p-4 flex flex-col overflow-hidden">
+    <main className="h-full w-full bg-[var(--surface)] flex flex-col overflow-hidden">
       <div className="w-full flex-1 flex flex-col min-h-0">
         <InternTimeline
           interns={interns}

@@ -19,9 +19,9 @@ export function TimelineHeader({
   return (
     <div className="flex flex-col sticky top-0 z-20 select-none">
       {/* Row 1: Month labels */}
-      <div className="flex flex-row h-[28px] border-b border-[var(--line)] bg-[var(--surface)]">
+      <div className="flex flex-row h-[28px] border-b border-[var(--line)] bg-[var(--surface-2)]">
         {/* Top-left sticky corner spacer (Months level) */}
-        <div className="sticky left-0 z-30 w-[132px] sm:w-[210px] min-w-[132px] sm:min-w-[210px] shrink-0 bg-[var(--surface)] border-r border-[var(--line)] px-3 flex items-center">
+        <div className="sticky left-0 z-30 w-[132px] sm:w-[210px] min-w-[132px] sm:min-w-[210px] shrink-0 bg-[var(--surface-2)] border-r border-[var(--line)] px-3 flex items-center">
           <span className="text-[11px] font-medium text-[var(--muted)]">
             {cornerLabel}
           </span>
@@ -42,9 +42,9 @@ export function TimelineHeader({
       </div>
 
       {/* Row 2: Weekday initials and day numbers */}
-      <div className="flex flex-row h-[36px] border-b border-[var(--line)] bg-[var(--surface)]">
+      <div className="flex flex-row h-[36px] border-b border-[var(--line)] bg-[var(--surface-2)]">
         {/* Top-left sticky corner spacer (Days level) */}
-        <div className="sticky left-0 z-30 w-[132px] sm:w-[210px] min-w-[132px] sm:min-w-[210px] shrink-0 bg-[var(--surface)] border-r border-[var(--line)] px-3 flex items-center">
+        <div className="sticky left-0 z-30 w-[132px] sm:w-[210px] min-w-[132px] sm:min-w-[210px] shrink-0 bg-[var(--surface-2)] border-r border-[var(--line)] px-3 flex items-center">
           <span className="text-[10px] text-[var(--muted)]">
             {cornerSubLabel}
           </span>
@@ -62,7 +62,7 @@ export function TimelineHeader({
                 key={day.date}
                 style={{ width: "36px" }}
                 className={`shrink-0 h-[36px] flex flex-col items-center justify-center ${
-                  isWeekend ? "bg-[var(--surface-2)]" : "bg-[var(--surface)]"
+                  isWeekend ? "bg-[var(--hover)]" : "bg-[var(--surface-2)]"
                 } ${
                   isMonday
                     ? "border-r border-[var(--ink)]/25"
@@ -76,13 +76,13 @@ export function TimelineHeader({
 
                 {isToday ? (
                   <span
-                    className="w-[18px] h-[18px] rounded-full border-2 border-[var(--today)] text-[var(--today)] font-bold text-[10px] flex items-center justify-center leading-none tabular-nums"
+                    className="w-[18px] h-[18px] rounded-full bg-[var(--today)] text-white font-semibold text-[10px] flex items-center justify-center leading-none tabular-nums"
                     aria-label={`Today, ${day.date}`}
                   >
                     {day.dayOfMonth}
                   </span>
                 ) : (
-                  <span className="text-[11px] leading-tight text-[var(--ink)] tabular-nums font-normal">
+                  <span className="text-[11px] leading-tight text-[var(--ink)] tabular-nums font-medium">
                     {day.dayOfMonth}
                   </span>
                 )}

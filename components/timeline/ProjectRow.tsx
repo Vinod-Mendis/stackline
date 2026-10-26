@@ -32,9 +32,9 @@ export function ProjectRow({
       : "No phases";
 
   return (
-    <div className="flex flex-row h-[66px] border-b border-[var(--line)] hover:bg-[var(--surface-2)]/30 group">
+    <div className="flex flex-row h-[66px] border-b border-[var(--line)] hover:bg-[var(--surface-2)]/50 group">
       {/* Sticky Left Column */}
-      <div className="sticky left-0 z-10 w-[132px] sm:w-[210px] min-w-[132px] sm:min-w-[210px] shrink-0 bg-[var(--surface)] border-r border-[var(--line)] px-3 py-1.5 flex flex-col justify-center select-none group-hover:bg-[var(--surface)]">
+      <div className="sticky left-0 z-10 w-[132px] sm:w-[210px] min-w-[132px] sm:min-w-[210px] shrink-0 bg-[var(--surface)] border-r border-[var(--line)] px-3 py-1.5 flex flex-col justify-center select-none group-hover:bg-[var(--surface-2)]">
         {/* Project type name and 8px colored square (sentence case) */}
         {category && (
           <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] text-[var(--muted)] font-medium leading-none mb-1 truncate">
@@ -50,7 +50,7 @@ export function ProjectRow({
         <button
           type="button"
           onClick={onEdit}
-          className="text-left font-['var(--font-bricolage)'] font-semibold text-[13px] sm:text-[14px] leading-tight text-[var(--ink)] truncate cursor-pointer hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] rounded"
+          className="text-left font-semibold text-[13px] sm:text-[14.5px] tracking-tight leading-tight text-[var(--ink)] truncate cursor-pointer hover:text-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] rounded"
           title={`Edit project: ${project.name}`}
         >
           {project.name || "Untitled project"}

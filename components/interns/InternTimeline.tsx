@@ -158,8 +158,15 @@ export function InternTimeline({
   return (
     <div className="w-full h-full flex flex-col min-h-0">
       {/* Toolbar */}
-      <header className="flex flex-wrap items-center justify-between gap-3 py-2 mb-3 border-b border-[var(--line)] shrink-0">
+      <header className="flex flex-wrap items-center justify-between gap-3 px-4 py-2 min-h-12 border-b border-[var(--line)] bg-[var(--surface)] shrink-0">
         <div className="flex items-center gap-2.5 flex-wrap">
+          <h1 className="text-[14px] font-semibold text-[var(--ink)] flex items-center gap-2">
+            Interns
+            <span className="px-1.5 h-5 inline-flex items-center rounded-[4px] bg-[var(--hover)] text-[11px] font-medium text-[var(--muted)] tabular-nums">
+              {interns.length}
+            </span>
+          </h1>
+          <div className="h-4 w-px bg-[var(--line)] mx-1" />
           <FilterChips
             categories={kinds}
             selectedCategoryId={selectedKindId}
@@ -171,16 +178,25 @@ export function InternTimeline({
           <button
             type="button"
             onClick={() => scrollToToday("smooth")}
-            className="px-3 py-1.5 text-[12px] font-medium text-[var(--ink)] bg-[var(--surface)] border border-[var(--line)] rounded-[6px] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] cursor-pointer"
+            className="btn btn-secondary"
           >
             Go to today
           </button>
           <button
             type="button"
-            onClick={handleOpenAddIntern}
-            className="px-3.5 py-1.5 text-[12px] font-semibold text-black bg-white hover:bg-[#F3F6F9] rounded-[6px] border border-[var(--line)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ink)] cursor-pointer"
+            onClick={() => handleOpenAddAssignment()}
+            disabled={interns.length === 0}
+            title={interns.length === 0 ? "Add an intern first" : undefined}
+            className="btn btn-secondary"
           >
-            Add intern
+            + Add assignment
+          </button>
+          <button
+            type="button"
+            onClick={handleOpenAddIntern}
+            className="btn btn-primary"
+          >
+            + Add intern
           </button>
         </div>
       </header>
@@ -219,16 +235,19 @@ export function InternTimeline({
           </div>
         ) : (
           /* Empty State */
-          <div className="py-16 px-6 text-center text-[13px] text-[var(--muted)]">
-            No interns yet. Click &ldquo;Add intern&rdquo; to start tracking.
+          <div className="py-20 px-6 flex flex-col items-center gap-1 text-center">
+            <p className="text-[14px] font-medium text-[var(--ink)]">No interns yet</p>
+            <p className="text-[13px] text-[var(--muted)]">
+              Click &ldquo;Add intern&rdquo; to start tracking.
+            </p>
           </div>
         )}
       </TimelineContainer>
 
       {/* Legend below grid */}
-      <div className="shrink-0 mt-3">
+      <div className="shrink-0 border-t border-[var(--line)]">
         <Legend
-          title="Kinds:"
+          title="Kinds"
           items={kinds.map((k) => ({ label: k.name, color: k.color }))}
         />
       </div>

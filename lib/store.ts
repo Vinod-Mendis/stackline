@@ -5,6 +5,7 @@ import {
   Assignment,
   Category,
   Intern,
+  LEGACY_COLOR_MAP,
   PHASE_COLORS,
   PhaseColor,
   Project,
@@ -28,16 +29,16 @@ const INTERNS_STORAGE_KEY = "stackline_v1_interns";
 
 export function getSeedProjectTypes(): Category[] {
   return [
-    { id: "cat-event", name: "Event", color: PHASE_COLORS[0] }, // #A8620A
-    { id: "cat-web", name: "Web", color: PHASE_COLORS[3] }, // #2A62B5
-    { id: "cat-product", name: "Product", color: PHASE_COLORS[2] }, // #0E7C6B
+    { id: "cat-event", name: "Event", color: PHASE_COLORS[0] }, // #FF6B35
+    { id: "cat-web", name: "Web", color: PHASE_COLORS[3] }, // #2D9CFF
+    { id: "cat-product", name: "Product", color: PHASE_COLORS[2] }, // #12B886
   ];
 }
 
 export function getSeedAssignmentKinds(): Category[] {
   return [
-    { id: "kind-client", name: "Client project", color: PHASE_COLORS[3] }, // #2A62B5
-    { id: "kind-learning", name: "Learning", color: PHASE_COLORS[1] }, // #6D4CC2
+    { id: "kind-client", name: "Client project", color: PHASE_COLORS[3] }, // #2D9CFF
+    { id: "kind-learning", name: "Learning", color: PHASE_COLORS[1] }, // #8B5CF6
   ];
 }
 
@@ -296,7 +297,9 @@ function loadFromStorage<T>(
       // Return seed data without writing to localStorage until first mutation
       return seedFn();
     }
-    const parsed: unknown = JSON.parse(raw);
+    const parsed: unknown = JSON.parse(
+      raw.replace(/#[0-9a-f]{6}/gi, (hex) => LEGACY_COLOR_MAP[hex.toLowerCase()] ?? hex)
+    );
     if (migrator) {
       const migrated = migrator(parsed);
       if (validator(migrated)) {

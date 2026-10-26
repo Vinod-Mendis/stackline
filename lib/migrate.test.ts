@@ -14,7 +14,7 @@ test("migrate: loads legacy projects without typeId intact with typeId undefined
           name: "Design",
           amount: 2,
           unit: "weeks",
-          color: "#A8620A",
+          color: "#FF6B35",
         },
       ],
     },
@@ -26,7 +26,7 @@ test("migrate: loads legacy projects without typeId intact with typeId undefined
   assert.equal(migrated[0].name, "Old Brand Refresh");
   assert.equal(migrated[0].typeId, undefined);
   assert.equal(migrated[0].phases.length, 1);
-  assert.equal(migrated[0].phases[0].color, "#A8620A");
+  assert.equal(migrated[0].phases[0].color, "#FF6B35");
 });
 
 test("migrate: preserves valid typeId when present", () => {
@@ -42,7 +42,7 @@ test("migrate: preserves valid typeId when present", () => {
           name: "Sprint 1",
           amount: 5,
           unit: "days",
-          color: "#2A62B5",
+          color: "#2D9CFF",
         },
       ],
     },
@@ -67,7 +67,7 @@ test("migrate: strips typeId if not in valid category set", () => {
           name: "Sprint 1",
           amount: 5,
           unit: "days",
-          color: "#2A62B5",
+          color: "#2D9CFF",
         },
       ],
     },
@@ -98,7 +98,7 @@ test("migrate: ignores corrupt entries and handles non-array input safely", () =
           name: "Good phase",
           amount: 3,
           unit: "days",
-          color: "#0E7C6B",
+          color: "#12B886",
         },
         { id: "ph-bad-color", name: "Bad color", amount: 1, unit: "days", color: "#999999" },
       ],

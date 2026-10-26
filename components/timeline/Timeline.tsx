@@ -122,24 +122,28 @@ export function Timeline({
   return (
     <div className="w-full h-full flex flex-col min-h-0">
       {/* Action Toolbar */}
-      <header className="flex flex-wrap items-center justify-between gap-3 py-2 mb-3 border-b border-[var(--line)] shrink-0">
+      <header className="flex flex-wrap items-center justify-between gap-3 px-4 py-2 min-h-12 border-b border-[var(--line)] bg-[var(--surface)] shrink-0">
         <div className="flex items-center gap-2.5 flex-wrap">
+          <h1 className="text-[14px] font-semibold text-[var(--ink)] flex items-center gap-2">
+            Projects
+            <span className="px-1.5 h-5 inline-flex items-center rounded-[4px] bg-[var(--hover)] text-[11px] font-medium text-[var(--muted)] tabular-nums">
+              {visibleProjects.length}
+            </span>
+          </h1>
+          <div className="h-4 w-px bg-[var(--line)] mx-1" />
           <FilterChips
             categories={projectTypes}
             selectedCategoryId={selectedTypeId}
             onSelectCategory={setSelectedTypeId}
           />
 
-          <div className="h-4 w-[1px] bg-[var(--line)] mx-0.5" />
+          <div className="h-4 w-px bg-[var(--line)] mx-1" />
 
           <button
             type="button"
             onClick={() => setIsGroupedByType((prev) => !prev)}
-            className={`px-2.5 py-1 text-[12px] rounded-[6px] border transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] ${
-              isGroupedByType
-                ? "bg-[var(--ink)] text-[var(--bg)] border-[var(--ink)] font-medium"
-                : "bg-[var(--surface)] text-[var(--muted)] border-[var(--line)] hover:text-[var(--ink)] hover:bg-[var(--surface-2)]"
-            }`}
+            className="chip"
+            aria-pressed={isGroupedByType}
           >
             Group by type
           </button>
@@ -149,16 +153,16 @@ export function Timeline({
           <button
             type="button"
             onClick={() => scrollToToday("smooth")}
-            className="px-3 py-1.5 text-[12px] font-medium text-[var(--ink)] bg-[var(--surface)] border border-[var(--line)] rounded-[6px] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] cursor-pointer"
+            className="btn btn-secondary"
           >
             Go to today
           </button>
           <button
             type="button"
             onClick={handleOpenCreate}
-            className="px-3.5 py-1.5 text-[12px] font-semibold text-black bg-white hover:bg-[#F3F6F9] rounded-[6px] border border-[var(--line)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ink)] cursor-pointer"
+            className="btn btn-primary"
           >
-            New project
+            + New project
           </button>
         </div>
       </header>
@@ -180,7 +184,7 @@ export function Timeline({
               projectGroups.map((group) => (
                 <div key={group.id} className="flex flex-col">
                   {/* Slim group header row per type */}
-                  <div className="flex flex-row h-[28px] border-b border-[var(--line)] bg-[var(--surface-2)]/60">
+                  <div className="flex flex-row h-[28px] border-b border-[var(--line)] bg-[var(--surface-2)]">
                     <div className="sticky left-0 z-10 w-[132px] sm:w-[210px] min-w-[132px] sm:min-w-[210px] shrink-0 bg-[var(--surface-2)] border-r border-[var(--line)] px-3 flex items-center gap-1.5 text-[11px] font-semibold text-[var(--muted)] select-none">
                       {group.color && (
                         <span
@@ -245,16 +249,21 @@ export function Timeline({
           </div>
         ) : (
           /* Empty State */
-          <div className="py-16 px-6 text-center text-[13px] text-[var(--muted)]">
-            {selectedTypeId
-              ? "No projects match the selected type."
-              : 'No projects yet. Click "New project" to start planning.'}
+          <div className="py-20 px-6 flex flex-col items-center gap-1 text-center">
+            <p className="text-[14px] font-medium text-[var(--ink)]">
+              {selectedTypeId ? "No matching projects" : "No projects yet"}
+            </p>
+            <p className="text-[13px] text-[var(--muted)]">
+              {selectedTypeId
+                ? "No projects match the selected type."
+                : 'Click "New project" to start planning.'}
+            </p>
           </div>
         )}
       </TimelineContainer>
 
       {/* Legend below grid */}
-      <div className="shrink-0 mt-3">
+      <div className="shrink-0 border-t border-[var(--line)]">
         <Legend projects={scheduledProjects} />
       </div>
 

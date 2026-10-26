@@ -27,9 +27,9 @@ export function Legend({ projects }: LegendProps) {
   }
 
   return (
-    <div className="mt-0 px-3 py-2.5 border border-[var(--line)] bg-[var(--surface)] rounded-[6px] flex flex-wrap items-center gap-x-5 gap-y-2 select-none text-[12px]">
+    <div className="px-4 py-2 bg-[var(--surface-2)] flex flex-wrap items-center gap-x-5 gap-y-2 select-none text-[12px]">
       <span className="text-[11px] font-medium text-[var(--muted)] shrink-0">
-        Phases:
+        Phases
       </span>
       {items.map(([name, color]) => (
         <div key={name} className="flex items-center gap-1.5 shrink-0">

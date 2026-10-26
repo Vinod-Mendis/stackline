@@ -47,7 +47,7 @@ export function ModalDialog({
     <dialog
       ref={dialogRef}
       onCancel={handleCancel}
-      className={`stackline-dialog fixed inset-0 m-auto z-50 w-full rounded-[8px] p-0 text-[var(--ink)] bg-[var(--surface)] border border-[var(--line)] backdrop:bg-black/40 dark:backdrop:bg-black/65 backdrop:backdrop-blur-none ${className}`}
+      className={`stackline-dialog fixed inset-0 m-auto z-50 w-full rounded-[12px] p-0 text-[var(--ink)] bg-[var(--surface)] border border-[var(--line)] backdrop:bg-black/40 dark:backdrop:bg-black/65 backdrop:backdrop-blur-none ${className}`}
       aria-labelledby={titleId}
     >
       {children}

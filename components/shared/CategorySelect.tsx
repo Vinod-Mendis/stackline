@@ -97,7 +97,7 @@ export function CategorySelect({
           id={id}
           value={selectedId ?? ""}
           onChange={handleSelectChange}
-          className="h-9 px-3 text-[13px] bg-[var(--surface-2)] border border-[var(--line)] rounded-[6px] text-[var(--ink)] focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] cursor-pointer"
+          className="h-9 px-3 text-[13px] bg-[var(--surface-2)] border border-[var(--line)] rounded-[6px] text-[var(--ink)] focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] cursor-pointer"
         >
           {allowNone && <option value="">{placeholder}</option>}
           {!allowNone && !selectedId && (
@@ -118,7 +118,7 @@ export function CategorySelect({
           <button
             type="button"
             onClick={handleCycleColor}
-            className="w-5 h-5 rounded-[3px] border border-black/15 shadow-xs shrink-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] transition-transform hover:scale-105"
+            className="w-5 h-5 rounded-[3px] border border-black/15 shadow-xs shrink-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] transition-transform hover:scale-105"
             style={{ backgroundColor: selectedColor }}
             title="Click to change color"
             aria-label={`Selected color ${selectedColor}. Click to cycle color.`}
@@ -139,14 +139,14 @@ export function CategorySelect({
               }
             }}
             placeholder="Category name..."
-            className="h-7 flex-1 min-w-0 px-2 text-[12px] bg-[var(--surface)] border border-[var(--line)] rounded-[4px] text-[var(--ink)] placeholder:text-[var(--muted)]/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)]"
+            className="h-7 flex-1 min-w-0 px-2 text-[12px] bg-[var(--surface)] border border-[var(--line)] rounded-[4px] text-[var(--ink)] placeholder:text-[var(--muted)]/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
           />
 
           <button
             type="button"
             onClick={handleSaveNew}
             disabled={!newName.trim()}
-            className="px-2.5 py-1 text-[11px] font-semibold text-black bg-white hover:bg-[#F3F6F9] disabled:opacity-50 disabled:cursor-not-allowed rounded-[4px] border border-[var(--line)] transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)]"
+            className="btn btn-primary"
           >
             Add
           </button>
@@ -154,7 +154,7 @@ export function CategorySelect({
           <button
             type="button"
             onClick={handleCancelNew}
-            className="px-2 py-1 text-[11px] font-medium text-[var(--muted)] hover:text-[var(--ink)] rounded-[4px] transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)]"
+            className="px-2 py-1 text-[11px] font-medium text-[var(--muted)] hover:text-[var(--ink)] rounded-[4px] transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
           >
             Cancel
           </button>

@@ -20,7 +20,7 @@ export function AssignmentBar({
   const widthPx = Math.max(33, assignment.durationDays * 36 - 3);
   const topPx = getAssignmentBarTop(assignment.laneIndex); // 14 + laneIndex * 44
 
-  const color = category ? category.color : "#5B6B7A";
+  const color = category ? category.color : "#94A3B8";
   const kindName = category ? category.name : "Unknown kind";
   const dateRange = formatDateRange(assignment.startDate, assignment.endDate);
   const tooltip = `${assignment.title || "Untitled"} (${kindName}) • ${dateRange}`;
@@ -48,7 +48,7 @@ export function AssignmentBar({
         backgroundColor: color,
       }}
       title={tooltip}
-      className="absolute z-1 rounded-[5px] px-2.5 py-1 text-white flex flex-col justify-center cursor-pointer select-none transition-all duration-75 hover:brightness-110 active:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] overflow-hidden leading-tight"
+      className="absolute z-[2] rounded-[4px] px-2.5 py-1 text-white flex flex-col justify-center cursor-pointer select-none transition-all duration-75 hover:brightness-110 active:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] overflow-hidden leading-tight"
     >
       <span className="text-[12px] font-semibold truncate leading-tight">
         {assignment.title || "Untitled"}

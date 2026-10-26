@@ -79,7 +79,7 @@ export function TimelineContainer({
   return (
     <div
       ref={containerRef}
-      className={`timeline-scrollbar flex-1 min-h-0 w-full relative overflow-auto overscroll-x-contain border border-[var(--line)] rounded-[8px] bg-[var(--surface)] ${className}`}
+      className={`timeline-scrollbar flex-1 min-h-0 w-full relative overflow-auto overscroll-x-contain bg-[var(--surface)] ${className}`}
     >
       <div className="inline-flex flex-col min-w-full min-h-full">
         {children}
