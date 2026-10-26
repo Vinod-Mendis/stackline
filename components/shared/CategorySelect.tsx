@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Category, PHASE_COLORS } from "../../types";
+import { Select } from "./Select";
 
 interface CategorySelectProps {
   id?: string;
@@ -34,8 +35,7 @@ export function CategorySelect({
 
   const selectedColor = PHASE_COLORS[colorIndex % PHASE_COLORS.length];
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const val = e.target.value;
+  const handleSelectChange = (val: string) => {
     if (val === NEW_CATEGORY_VALUE) {
       setIsCreating(true);
       setNewName("");
@@ -93,25 +93,21 @@ export function CategorySelect({
       </div>
 
       {!isCreating ? (
-        <select
+        <Select
           id={id}
           value={selectedId ?? ""}
           onChange={handleSelectChange}
-          className="h-9 px-3 text-[13px] bg-[var(--surface-2)] border border-[var(--line)] rounded-[6px] text-[var(--ink)] focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] cursor-pointer"
-        >
-          {allowNone && <option value="">{placeholder}</option>}
-          {!allowNone && !selectedId && (
-            <option value="" disabled>
-              Select...
-            </option>
-          )}
-          {categories.map((cat) => (
-            <option key={cat.id} value={cat.id}>
-              {cat.name}
-            </option>
-          ))}
-          <option value={NEW_CATEGORY_VALUE}>+ {newOptionLabel}</option>
-        </select>
+          placeholder={allowNone ? placeholder : "Select..."}
+          options={[
+            ...(allowNone ? [{ value: "", label: placeholder }] : []),
+            ...categories.map((cat) => ({
+              value: cat.id,
+              label: cat.name,
+              color: cat.color,
+            })),
+            { value: NEW_CATEGORY_VALUE, label: `+ ${newOptionLabel}` },
+          ]}
+        />
       ) : (
         <div className="flex items-center gap-2 p-2 bg-[var(--surface-2)] border border-[var(--line)] rounded-[6px]">
           {/* Clickable color dot to cycle through palette */}

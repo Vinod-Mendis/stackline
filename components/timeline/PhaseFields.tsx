@@ -1,5 +1,7 @@
 "use client";
 
+import { NumberStepper } from "../shared/NumberStepper";
+import { Select } from "../shared/Select";
 import React from "react";
 import { Phase, PHASE_COLORS, PhaseUnit } from "../../types";
 
@@ -28,14 +30,8 @@ export function PhaseFields({
     onChange({ ...phase, name: e.target.value });
   };
 
-  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = parseInt(e.target.value, 10);
-    const amount = Number.isNaN(val) ? 1 : Math.max(1, val);
-    onChange({ ...phase, amount });
-  };
-
-  const handleUnitChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onChange({ ...phase, unit: e.target.value as PhaseUnit });
+  const handleUnitChange = (value: string) => {
+    onChange({ ...phase, unit: value as PhaseUnit });
   };
 
   const phaseId = phase.id;
@@ -72,14 +68,11 @@ export function PhaseFields({
         <label htmlFor={`phase-amount-${phaseId}`} className="sr-only">
           Phase {index + 1} duration amount
         </label>
-        <input
+        <NumberStepper
           id={`phase-amount-${phaseId}`}
-          type="number"
-          min="1"
-          step="1"
           value={phase.amount}
-          onChange={handleAmountChange}
-          className="w-full h-8 px-2 text-[13px] text-center tabular-nums bg-[var(--surface-2)] border border-[var(--line)] rounded-[5px] text-[var(--ink)] focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
+          onChange={(amount) => onChange({ ...phase, amount })}
+          min={1}
         />
       </div>
 
@@ -88,15 +81,16 @@ export function PhaseFields({
         <label htmlFor={`phase-unit-${phaseId}`} className="sr-only">
           Phase {index + 1} duration unit
         </label>
-        <select
+        <Select
           id={`phase-unit-${phaseId}`}
           value={phase.unit}
           onChange={handleUnitChange}
-          className="w-full h-8 px-2 text-[13px] bg-[var(--surface-2)] border border-[var(--line)] rounded-[5px] text-[var(--ink)] focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] cursor-pointer"
-        >
-          <option value="days">days</option>
-          <option value="weeks">weeks</option>
-        </select>
+          size="sm"
+          options={[
+            { value: "days", label: "days" },
+            { value: "weeks", label: "weeks" },
+          ]}
+        />
       </div>
 
       {/* Remove Phase Button */}

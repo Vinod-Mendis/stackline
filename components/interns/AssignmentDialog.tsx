@@ -1,5 +1,7 @@
 "use client";
 
+import { DatePicker } from "../shared/DatePicker";
+import { Select } from "../shared/Select";
 import React, { useState } from "react";
 import { Assignment, Category, Intern } from "../../types";
 import { addDaysUTC, getTodayDateString } from "../../lib/dates";
@@ -146,19 +148,15 @@ function AssignmentForm({
           >
             Intern
           </label>
-          <select
+          <Select
             id="assignment-intern"
-            required
             value={internId}
-            onChange={(e) => setInternId(e.target.value)}
-            className="h-9 px-3 text-[13px] bg-[var(--surface-2)] border border-[var(--line)] rounded-[6px] text-[var(--ink)] focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] cursor-pointer"
-          >
-            {interns.map((intern) => (
-              <option key={intern.id} value={intern.id}>
-                {intern.name}
-              </option>
-            ))}
-          </select>
+            onChange={setInternId}
+            options={interns.map((intern) => ({
+              value: intern.id,
+              label: intern.name,
+            }))}
+          />
         </div>
 
         {/* Assignment Title */}
@@ -201,13 +199,10 @@ function AssignmentForm({
             >
               Start date
             </label>
-            <input
+            <DatePicker
               id="assignment-start-date"
-              type="date"
-              required
               value={startDate}
-              onChange={(e) => handleStartDateChange(e.target.value)}
-              className="h-9 px-3 text-[13px] tabular-nums bg-[var(--surface-2)] border border-[var(--line)] rounded-[6px] text-[var(--ink)] focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] cursor-pointer"
+              onChange={handleStartDateChange}
             />
           </div>
 
@@ -218,13 +213,11 @@ function AssignmentForm({
             >
               End date
             </label>
-            <input
+            <DatePicker
               id="assignment-end-date"
-              type="date"
-              required
               value={endDate}
-              onChange={(e) => handleEndDateChange(e.target.value)}
-              className={`field tabular-nums cursor-pointer ${dateError ? "!border-[var(--today)]" : ""}`}
+              onChange={handleEndDateChange}
+              invalid={!!dateError}
             />
           </div>
         </div>

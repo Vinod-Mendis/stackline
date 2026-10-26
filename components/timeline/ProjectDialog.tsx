@@ -1,5 +1,6 @@
 "use client";
 
+import { DatePicker } from "../shared/DatePicker";
 import React, { useState } from "react";
 import { Category, Phase, PHASE_COLORS, Project } from "../../types";
 import { getTodayDateString } from "../../lib/dates";
@@ -174,13 +175,10 @@ function ProjectForm({
           >
             Start date
           </label>
-          <input
+          <DatePicker
             id="project-start-date"
-            type="date"
-            required
             value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            className="h-9 px-3 text-[13px] tabular-nums bg-[var(--surface-2)] border border-[var(--line)] rounded-[6px] text-[var(--ink)] focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] cursor-pointer"
+            onChange={setStartDate}
           />
         </div>
 
