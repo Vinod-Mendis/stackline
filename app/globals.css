@@ -1,41 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #FFFFFF;
-  --surface: #FFFFFF;
-  --surface-2: #F7F8F9;
-  --sidebar: #F7F8F9;
-  --hover: #EEF0F2;
-  --ink: #1C2024;
-  --muted: #6B7280;
-  --line: #E4E7EB;
-  --today: #E5484D;
-  --accent: #3F76FF;
-  --accent-hover: #2F63E8;
-  --accent-soft: rgba(63, 118, 255, 0.1);
-  --ring: rgba(63, 118, 255, 0.28);
-  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
-  --dialog-shadow: 0 16px 40px -8px rgba(16, 24, 40, 0.22);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0F1113;
-    --surface: #14171A;
-    --surface-2: #1A1D21;
-    --sidebar: #101215;
-    --hover: #1F2328;
-    --ink: #E6E8EB;
-    --muted: #8A919A;
-    --line: #25292E;
-    --today: #FF6369;
-    --accent: #4C82FF;
-    --accent-hover: #6B97FF;
-    --accent-soft: rgba(76, 130, 255, 0.16);
-    --ring: rgba(76, 130, 255, 0.4);
-    --shadow-sm: none;
-    --dialog-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.7);
-  }
+  color-scheme: dark;
+  --bg: #000000;
+  --surface: #050506;
+  --surface-2: #0A0A0C;
+  --sidebar: #000000;
+  --hover: #131316;
+  --ink: #EDEDEF;
+  --muted: #8B8B94;
+  --line: #17171B;
+  --today: #FF5A60;
+  --accent: #FFFFFF;
+  --on-accent: #0A0A0C;
+  --accent-hover: #D4D4D8;
+  --accent-soft: rgba(255, 255, 255, 0.09);
+  --ring: rgba(255, 255, 255, 0.28);
+  --shadow-sm: none;
+  --dialog-shadow: 0 16px 48px -8px rgba(0, 0, 0, 0.9), 0 0 0 1px #1C1C21;
 }
 
 @theme inline {
@@ -74,7 +56,7 @@ dialog.stackline-dialog {
 }
 
 dialog::backdrop {
-  background: rgba(16, 24, 40, 0.35);
+  background: rgba(0, 0, 0, 0.65);
 }
 
 @keyframes dialog-in {
@@ -82,11 +64,6 @@ dialog::backdrop {
   to { opacity: 1; transform: none; }
 }
 
-@media (prefers-color-scheme: dark) {
-  dialog::backdrop {
-    background: rgba(0, 0, 0, 0.65);
-  }
-}
 
 /* Visible keyboard focus */
 :focus-visible {
@@ -115,7 +92,7 @@ dialog::backdrop {
   .btn:disabled { opacity: 0.5; cursor: not-allowed; }
   .btn-primary {
     background: var(--accent);
-    color: #fff;
+    color: var(--on-accent);
   }
   .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
   .btn-secondary {
