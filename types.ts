@@ -7,28 +7,6 @@ export const PHASE_COLORS = [
   "#EC4899",
 ] as const;
 
-/** Earlier palettes -> current palette, applied to data saved before the retheme. */
-export const LEGACY_COLOR_MAP: Record<string, string> = {
-  "#a8620a": "#FF6B35",
-  "#6d4cc2": "#8B5CF6",
-  "#0e7c6b": "#12B886",
-  "#2a62b5": "#2D9CFF",
-  "#c2413b": "#F43F5E",
-  "#5b6b7a": "#EC4899",
-  "#d9730d": "#FF6B35",
-  "#7c5cfa": "#8B5CF6",
-  "#0f9d8a": "#12B886",
-  "#3f76ff": "#2D9CFF",
-  "#e5484d": "#F43F5E",
-  "#64748b": "#EC4899",
-  "#e76f51": "#FF6B35",
-  "#8e6bbf": "#8B5CF6",
-  "#2a9d8f": "#12B886",
-  "#2f6690": "#2D9CFF",
-  "#c9486b": "#F43F5E",
-  "#6b7b8c": "#EC4899",
-};
-
 export type PhaseColor = (typeof PHASE_COLORS)[number];
 
 export type PhaseUnit = "days" | "weeks";

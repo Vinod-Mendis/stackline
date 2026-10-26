@@ -19,7 +19,7 @@ import {
   scheduleIntern,
   scheduleProject,
 } from "./schedule";
-import { getSeedProjects, validateProjects } from "./store";
+import { validateProjects } from "./validate";
 import { Project } from "../types";
 
 test("dates: parseDateUTC and addDaysUTC handle month and leap year boundaries correctly", () => {
@@ -187,10 +187,8 @@ test("schedule: computeTimelineRange meets all axis rules", () => {
   assert.equal(range.days[range.todayIndex].date, today);
 });
 
-test("store: seed projects are dynamic and valid", () => {
-  const seed = getSeedProjects();
-  assert.equal(seed.length, 2);
-  assert.equal(validateProjects(seed), true);
+test("validate: project schema", () => {
+  assert.equal(validateProjects([]), true);
 
   // Test invalid schema rejection
   assert.equal(validateProjects(null), false);

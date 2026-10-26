@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { AppNav } from "../components/nav/AppNav";
+import { SaveErrorToast } from "../components/shared/SaveErrorToast";
 import "./globals.css";
 
 const inter = Inter({
@@ -29,6 +30,7 @@ export default function RootLayout({
         <div className="flex-1 min-h-0 min-w-0 overflow-hidden flex flex-col">
           {children}
         </div>
+        <SaveErrorToast />
       </body>
     </html>
   );
