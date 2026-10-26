@@ -5,15 +5,19 @@ import React, { useCallback, useEffect, useRef } from "react";
 export function useTimelineScroll(todayIndex: number) {
   const containerRef = useRef<HTMLDivElement>(null);
   const hasInitiallyScrolledRef = useRef(false);
+  const animationRef = useRef<number | null>(null);
+
+  const cancelAnimation = useCallback(() => {
+    if (animationRef.current !== null) {
+      cancelAnimationFrame(animationRef.current);
+      animationRef.current = null;
+    }
+  }, []);
 
   const scrollToToday = useCallback(
     (behavior: ScrollBehavior = "smooth") => {
       const container = containerRef.current;
       if (!container || todayIndex < 0) return;
-
-      const prefersReducedMotion =
-        typeof window !== "undefined" &&
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       const todayPixelOffset = todayIndex * 36;
       const leftColOffset = window.innerWidth < 640 ? 132 : 210;
@@ -22,12 +26,31 @@ export function useTimelineScroll(todayIndex: number) {
         todayPixelOffset - (container.clientWidth - leftColOffset) / 2 + 36
       );
 
-      container.scrollTo({
-        left: targetLeft,
-        behavior: prefersReducedMotion ? "auto" : behavior,
-      });
+      cancelAnimation();
+
+      const startLeft = container.scrollLeft;
+      const distance = targetLeft - startLeft;
+      if (behavior === "auto" || Math.abs(distance) < 1) {
+        container.scrollLeft = targetLeft;
+        return;
+      }
+
+      // Hand-rolled easing so the glide is consistent (native smooth scrolling
+      // is cut short or skipped by some OS animation settings). Longer trips
+      // take longer, within 450-900ms.
+      const duration = Math.min(900, Math.max(450, Math.abs(distance) * 0.6));
+      const startTime = performance.now();
+      const easeInOutCubic = (t: number) =>
+        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+      const step = (now: number) => {
+        const t = Math.min(1, (now - startTime) / duration);
+        container.scrollLeft = startLeft + distance * easeInOutCubic(t);
+        animationRef.current = t < 1 ? requestAnimationFrame(step) : null;
+      };
+      animationRef.current = requestAnimationFrame(step);
     },
-    [todayIndex]
+    [todayIndex, cancelAnimation]
   );
 
   // Scroll to today on initial mount
@@ -47,6 +70,7 @@ export function useTimelineScroll(todayIndex: number) {
     if (!container) return;
 
     const handleWheel = (e: WheelEvent) => {
+      cancelAnimation();
       if (e.ctrlKey || e.altKey) return;
       if (Math.abs(e.deltaX) > 0) return;
 
@@ -57,10 +81,15 @@ export function useTimelineScroll(todayIndex: number) {
     };
 
     container.addEventListener("wheel", handleWheel, { passive: false });
+    container.addEventListener("touchstart", cancelAnimation, { passive: true });
+    container.addEventListener("pointerdown", cancelAnimation, { passive: true });
     return () => {
       container.removeEventListener("wheel", handleWheel);
+      container.removeEventListener("touchstart", cancelAnimation);
+      container.removeEventListener("pointerdown", cancelAnimation);
+      cancelAnimation();
     };
-  }, []);
+  }, [cancelAnimation]);
 
   return { containerRef, scrollToToday };
 }
@@ -79,7 +108,7 @@ export function TimelineContainer({
   return (
     <div
       ref={containerRef}
-      className={`timeline-scrollbar flex-1 min-h-0 w-full relative overflow-auto overscroll-x-contain border border-[var(--line)] rounded-[8px] bg-[var(--surface)] ${className}`}
+      className={`timeline-scrollbar flex-1 min-h-0 w-full relative overflow-auto overscroll-x-contain bg-[var(--surface)] ${className}`}
     >
       <div className="inline-flex flex-col min-w-full min-h-full">
         {children}

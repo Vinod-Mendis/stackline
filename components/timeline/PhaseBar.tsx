@@ -27,9 +27,9 @@ export function PhaseBar({ phase, onClick }: PhaseBarProps) {
         width: `${width}px`,
         backgroundColor: phase.color,
       }}
-      className="absolute top-[14px] h-[38px] rounded-[5px] text-white px-2 py-0.5 text-left flex flex-col justify-center cursor-pointer select-none overflow-hidden transition-[filter] hover:brightness-108 active:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ink)]"
+      className="absolute z-[2] top-[14px] h-[38px] rounded-[4px] text-white px-2 py-0.5 text-left flex flex-col justify-center cursor-pointer select-none overflow-hidden transition-[filter] hover:brightness-108 active:brightness-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
     >
-      <span className="text-[12px] font-medium leading-tight truncate text-white">
+      <span className="text-[12.5px] font-semibold leading-tight truncate text-white">
         {phase.name}
       </span>
       <span className="text-[10px] leading-tight text-white/85 tabular-nums truncate">

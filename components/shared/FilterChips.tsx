@@ -21,11 +21,8 @@ export function FilterChips({
       <button
         type="button"
         onClick={() => onSelectCategory(null)}
-        className={`px-2.5 py-1 rounded-[6px] border transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] ${
-          selectedCategoryId === null
-            ? "bg-[var(--ink)] text-[var(--bg)] border-[var(--ink)] font-medium"
-            : "bg-[var(--surface)] text-[var(--muted)] border-[var(--line)] hover:text-[var(--ink)] hover:bg-[var(--surface-2)]"
-        }`}
+        className="chip"
+        aria-pressed={selectedCategoryId === null}
       >
         {allLabel}
       </button>
@@ -37,14 +34,11 @@ export function FilterChips({
             key={cat.id}
             type="button"
             onClick={() => onSelectCategory(cat.id)}
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] border transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] ${
-              isSelected
-                ? "bg-[var(--ink)] text-[var(--bg)] border-[var(--ink)] font-medium"
-                : "bg-[var(--surface)] text-[var(--muted)] border-[var(--line)] hover:text-[var(--ink)] hover:bg-[var(--surface-2)]"
-            }`}
+            className="chip"
+            aria-pressed={isSelected}
           >
             <span
-              className="w-2 h-2 rounded-[2px] shrink-0"
+              className="w-2 h-2 rounded-full shrink-0"
               style={{ backgroundColor: cat.color }}
               aria-hidden="true"
             />

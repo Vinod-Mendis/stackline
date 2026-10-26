@@ -1,10 +1,10 @@
 export const PHASE_COLORS = [
-  "#A8620A",
-  "#6D4CC2",
-  "#0E7C6B",
-  "#2A62B5",
-  "#C2413B",
-  "#5B6B7A",
+  "#FF6B35",
+  "#8B5CF6",
+  "#12B886",
+  "#2D9CFF",
+  "#F43F5E",
+  "#EC4899",
 ] as const;
 
 export type PhaseColor = (typeof PHASE_COLORS)[number];

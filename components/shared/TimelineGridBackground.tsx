@@ -37,7 +37,7 @@ export function TimelineGridBackground({
       {/* Today vertical line */}
       {typeof todayIndex === "number" && todayIndex >= 0 && (
         <div
-          className="absolute top-0 bottom-0 w-[1px] bg-[var(--today)]/75 pointer-events-none z-10"
+          className="absolute top-0 bottom-0 w-[1px] bg-[var(--today)]/75 pointer-events-none z-[1]"
           style={{ left: `${todayIndex * 36 + 18}px` }}
         />
       )}

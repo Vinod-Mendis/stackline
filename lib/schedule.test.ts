@@ -19,7 +19,7 @@ import {
   scheduleIntern,
   scheduleProject,
 } from "./schedule";
-import { getSeedProjects, validateProjects } from "./store";
+import { validateProjects } from "./validate";
 import { Project } from "../types";
 
 test("dates: parseDateUTC and addDaysUTC handle month and leap year boundaries correctly", () => {
@@ -93,21 +93,21 @@ test("schedule: scheduleProject runs phases back to back with inclusive end date
         name: "Research",
         amount: 3,
         unit: "days",
-        color: "#A8620A",
+        color: "#FF6B35",
       },
       {
         id: "p2",
         name: "Prototyping",
         amount: 1,
         unit: "weeks", // 7 days
-        color: "#6D4CC2",
+        color: "#8B5CF6",
       },
       {
         id: "p3",
         name: "Testing",
         amount: 2,
         unit: "days",
-        color: "#0E7C6B",
+        color: "#12B886",
       },
     ],
   };
@@ -153,7 +153,7 @@ test("schedule: computeTimelineRange meets all axis rules", () => {
           name: "Sprint 1",
           amount: 2,
           unit: "weeks",
-          color: "#A8620A",
+          color: "#FF6B35",
         },
       ],
     },
@@ -187,10 +187,8 @@ test("schedule: computeTimelineRange meets all axis rules", () => {
   assert.equal(range.days[range.todayIndex].date, today);
 });
 
-test("store: seed projects are dynamic and valid", () => {
-  const seed = getSeedProjects();
-  assert.equal(seed.length, 2);
-  assert.equal(validateProjects(seed), true);
+test("validate: project schema", () => {
+  assert.equal(validateProjects([]), true);
 
   // Test invalid schema rejection
   assert.equal(validateProjects(null), false);
@@ -218,7 +216,7 @@ test("store: seed projects are dynamic and valid", () => {
             name: "Phase",
             amount: 0, // invalid amount
             unit: "days",
-            color: "#A8620A",
+            color: "#FF6B35",
           },
         ],
       },

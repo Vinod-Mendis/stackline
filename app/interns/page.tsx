@@ -1,5 +1,6 @@
 "use client";
 
+import { LoadState } from "../../components/shared/LoadState";
 import { useAssignmentKindsStore, useInternsStore } from "../../lib/store";
 import { InternTimeline } from "../../components/interns/InternTimeline";
 
@@ -24,17 +25,11 @@ export default function InternsPage() {
   const isLoaded = isInternsLoaded && isKindsLoaded;
 
   if (!isLoaded) {
-    return (
-      <div className="h-full w-full bg-[var(--bg)] p-3 sm:p-4 flex flex-col items-center justify-center select-none">
-        <div className="w-full max-w-lg border border-[var(--line)] bg-[var(--surface)] rounded-[8px] p-8 text-center text-[13px] text-[var(--muted)]">
-          Loading interns timeline...
-        </div>
-      </div>
-    );
+    return <LoadState label="Loading interns timeline..." />;
   }
 
   return (
-    <main className="h-full w-full bg-[var(--bg)] p-3 sm:p-4 flex flex-col overflow-hidden">
+    <main className="h-full w-full bg-[var(--surface)] flex flex-col overflow-hidden">
       <div className="w-full flex-1 flex flex-col min-h-0">
         <InternTimeline
           interns={interns}

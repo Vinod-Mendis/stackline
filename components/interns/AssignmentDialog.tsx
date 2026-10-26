@@ -1,5 +1,7 @@
 "use client";
 
+import { DatePicker } from "../shared/DatePicker";
+import { Select } from "../shared/Select";
 import React, { useState } from "react";
 import { Assignment, Category, Intern } from "../../types";
 import { addDaysUTC, getTodayDateString } from "../../lib/dates";
@@ -122,7 +124,7 @@ function AssignmentForm({
       <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--line)]">
         <h2
           id="assignment-dialog-title"
-          className="font-['var(--font-bricolage)'] text-[17px] font-semibold text-[var(--ink)]"
+          className="text-[17px] font-semibold text-[var(--ink)]"
         >
           {isEditMode ? "Edit assignment" : "New assignment"}
         </h2>
@@ -130,7 +132,7 @@ function AssignmentForm({
           type="button"
           onClick={onClose}
           aria-label="Close dialog"
-          className="w-7 h-7 rounded-[5px] flex items-center justify-center text-[var(--muted)] hover:text-[var(--ink)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] cursor-pointer"
+          className="w-7 h-7 rounded-[5px] flex items-center justify-center text-[var(--muted)] hover:text-[var(--ink)] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)] cursor-pointer"
         >
           ✕
         </button>
@@ -146,19 +148,15 @@ function AssignmentForm({
           >
             Intern
           </label>
-          <select
+          <Select
             id="assignment-intern"
-            required
             value={internId}
-            onChange={(e) => setInternId(e.target.value)}
-            className="h-9 px-3 text-[13px] bg-[var(--surface-2)] border border-[var(--line)] rounded-[6px] text-[var(--ink)] focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] cursor-pointer"
-          >
-            {interns.map((intern) => (
-              <option key={intern.id} value={intern.id}>
-                {intern.name}
-              </option>
-            ))}
-          </select>
+            onChange={setInternId}
+            options={interns.map((intern) => ({
+              value: intern.id,
+              label: intern.name,
+            }))}
+          />
         </div>
 
         {/* Assignment Title */}
@@ -175,7 +173,7 @@ function AssignmentForm({
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g. Design System Audit"
-            className="h-9 px-3 text-[13px] bg-[var(--surface-2)] border border-[var(--line)] rounded-[6px] text-[var(--ink)] placeholder:text-[var(--muted)]/70 focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)]"
+            className="h-9 px-3 text-[13px] bg-[var(--surface-2)] border border-[var(--line)] rounded-[6px] text-[var(--ink)] placeholder:text-[var(--muted)]/70 focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
           />
         </div>
 
@@ -201,13 +199,10 @@ function AssignmentForm({
             >
               Start date
             </label>
-            <input
+            <DatePicker
               id="assignment-start-date"
-              type="date"
-              required
               value={startDate}
-              onChange={(e) => handleStartDateChange(e.target.value)}
-              className="h-9 px-3 text-[13px] tabular-nums bg-[var(--surface-2)] border border-[var(--line)] rounded-[6px] text-[var(--ink)] focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] cursor-pointer"
+              onChange={handleStartDateChange}
             />
           </div>
 
@@ -218,15 +213,11 @@ function AssignmentForm({
             >
               End date
             </label>
-            <input
+            <DatePicker
               id="assignment-end-date"
-              type="date"
-              required
               value={endDate}
-              onChange={(e) => handleEndDateChange(e.target.value)}
-              className={`h-9 px-3 text-[13px] tabular-nums bg-[var(--surface-2)] border rounded-[6px] text-[var(--ink)] focus:bg-[var(--surface)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] cursor-pointer ${
-                dateError ? "border-[var(--today)]" : "border-[var(--line)]"
-              }`}
+              onChange={handleEndDateChange}
+              invalid={!!dateError}
             />
           </div>
         </div>
@@ -250,11 +241,7 @@ function AssignmentForm({
             <button
               type="button"
               onClick={handleDelete}
-              className={`px-3 py-1.5 text-[12px] font-medium rounded-[6px] border transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] ${
-                isConfirmingDelete
-                  ? "bg-[var(--today)] text-white border-transparent hover:brightness-110"
-                  : "text-[var(--today)] border-[var(--line)] hover:bg-[var(--surface)]"
-              }`}
+              className={`btn ${isConfirmingDelete ? "btn-danger" : "btn-danger-outline"}`}
             >
               {isConfirmingDelete
                 ? "Click to confirm delete"
@@ -267,14 +254,14 @@ function AssignmentForm({
           <button
             type="button"
             onClick={onClose}
-            className="px-3.5 py-1.5 text-[12px] font-medium text-[var(--ink)] bg-[var(--surface)] border border-[var(--line)] rounded-[6px] hover:bg-[var(--surface-2)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--ink)] cursor-pointer"
+            className="btn btn-secondary"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={!!dateError}
-            className="px-4 py-1.5 text-[12px] font-semibold text-black bg-white hover:bg-[#F3F6F9] disabled:opacity-50 disabled:cursor-not-allowed rounded-[6px] border border-[var(--line)] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ink)] cursor-pointer"
+            className="btn btn-primary"
           >
             Save assignment
           </button>

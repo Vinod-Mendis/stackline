@@ -12,13 +12,13 @@ interface LegendProps {
   items: LegendItem[];
 }
 
-export function Legend({ title = "Phases:", items }: LegendProps) {
+export function Legend({ title = "Phases", items }: LegendProps) {
   if (items.length === 0) {
     return null;
   }
 
   return (
-    <div className="mt-0 px-3 py-2.5 border border-[var(--line)] bg-[var(--surface)] rounded-[6px] flex flex-wrap items-center gap-x-5 gap-y-2 select-none text-[12px]">
+    <div className="px-4 py-2 bg-[var(--surface-2)] flex flex-wrap items-center gap-x-5 gap-y-2 select-none text-[12px]">
       <span className="text-[11px] font-medium text-[var(--muted)] shrink-0">
         {title}
       </span>
